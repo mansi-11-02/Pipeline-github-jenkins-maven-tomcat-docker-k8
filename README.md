@@ -24,3 +24,23 @@ tomcat-users.xml
 <user username="developer" password="developer" roles="manager-script"/>
 <user username="tomcat" password="s3cret" roles="manager-gui"/>
 ```
+eks-cluster-creation
+
+# Install EKS Tool
+```yml
+curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
+sudo mv /tmp/eksctl /usr/local/bin
+eksctl version
+
+Install Kubectl
+```yml
+curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
+sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl 
+kubectl version --client
+```
+
+Create EKS Cluster
+```yml
+eksctl create cluster --name my-cluster --region region-code --version 1.29 --vpc-public-subnets subnet-ExampleID1,subnet-ExampleID2 --without-nodegroup
+```
+

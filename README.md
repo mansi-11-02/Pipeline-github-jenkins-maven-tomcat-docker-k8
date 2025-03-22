@@ -35,7 +35,7 @@ Generating ssh-key to connect local server to our github account.
 
 Cloning java project files on local server
 
-![image](https://github.com/user-attachments/assets/fd5ccc5c-f1fc-4e40-bcf1-e99f73108d4c)
+!image{: style="border: 1px solid #000;"}(https://github.com/user-attachments/assets/fd5ccc5c-f1fc-4e40-bcf1-e99f73108d4c)
 
 The files are added, commited and pushed in the github Repository by creating remote origin on main branch.
 

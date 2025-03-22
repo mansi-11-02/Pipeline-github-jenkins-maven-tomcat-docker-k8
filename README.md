@@ -17,5 +17,10 @@ The CI/CD pipeline consists of the following stages:
 
 ## Steps to Create the CI/CD Pipeline
 
-### 1. Create AWS EC2 Instances
-Create 5 instances in AWS EC2 with the same security group, key-pair, and region.
+ 
+## Create 5 instances in AWS EC2 with the same security group, key-pair, and region.
+![image](https://github.com/user-attachments/assets/11dcf2bb-2057-48ae-9406-a855381b0e81)
+### 1.Source Code Management: 
+#### Installing git in developer-server for local version control system.
+Generating ssh-key to connect local server to our github account.
+

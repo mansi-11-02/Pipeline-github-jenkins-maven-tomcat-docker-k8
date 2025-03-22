@@ -98,14 +98,205 @@ Change branch to main.
 
 Save, apply, and build now > The build should be successful.
 
-![image](https://github.com/user-attachments/assets/36a74365-ab5f-47de-bb0f-35ac51afa629)
+![image](https://github.com/user-attachments/assets/489c86fa-4d2b-4e0f-a469-84f9699e7128)
 
 Jenkins artifacts are visible, it means the build outputs or results are accessible.
 
-![image](https://github.com/user-attachments/assets/489c86fa-4d2b-4e0f-a469-84f9699e7128)
+![image](https://github.com/user-attachments/assets/abb1f090-a6c0-441b-aa5b-04b3925bc5cd)
 
 Open tomcat-server in the terminal
 Install java and apache tomcat in /opt directory
+
+![image](https://github.com/user-attachments/assets/bff2232b-5f6d-4c37-816b-31d67ea89fae)
+
+Unzip the apache tomcat folder. Enter in apache-tomcat folder. Open the bin file and find the path of all context.xml files.
+
+![image](https://github.com/user-attachments/assets/d692fd9f-ab19-4b0d-be51-efdae489d1cc)
+
+Change the last two files: comment valve statement in both the files <!-- -->
+
+![image](https://github.com/user-attachments/assets/a6174270-ad33-4da6-a4bf-1fbdf96cf6fe)
+
+Open the conf/ tomcat-users.xml file and add users:
+
+![image](https://github.com/user-attachments/assets/9151d66e-cf8a-434d-bb2a-342d0adf7bed)
+
+Starting tomcat
+
+![image](https://github.com/user-attachments/assets/a7bfbc23-5b13-47c4-a953-cddfaf688d56)
+
+Go to Jenkins in web browser:
+To integrate tomat server with Jenkins:
+Go to Manage Jenkins > plugin > available plugins > deploy to container > install
+Manage Jenkins > Credentials > system > global credentials > add
+   Username: developer
+   Password: developer
+   Id: tomcat-cred
+
+![image](https://github.com/user-attachments/assets/197cbeb1-c447-4c2c-9c46-ab08978a72e0)
+
+Create new item > type name > select maven project > add git repository link > change branch to main > Build trigger > Go to add post built action > deploy ear/war to a container > Save and apply > Build now
+
+![image](https://github.com/user-attachments/assets/2f11a6cf-93f9-4d49-9b90-13c1d2af38cf)
+
+![image](https://github.com/user-attachments/assets/84b1d0c8-2317-43af-86a9-ad0977049701)
+
+Open public ip of tomcat-server on web browser on port 8080
+
+![image](https://github.com/user-attachments/assets/c1f03f76-292e-46c7-88f2-29625f1b26f3)
+
+Go to manager app , add username: admin and password : admin
+
+![image](https://github.com/user-attachments/assets/642a2846-3d6d-4224-81e9-7dab01ee1bd3)
+
+Open /webapp
+
+![image](https://github.com/user-attachments/assets/f27043ac-d544-454d-a888-4877bc51214f)
+
+Your web application should open.
+
+![image](https://github.com/user-attachments/assets/fe8789e0-de83-40de-bad1-899332665483)
+
+
+### 3.Dockerization: 
+
+The application is packaged into a Docker image and Image Storage: The Docker image is stored in Amazon ECR.
+
+![image](https://github.com/user-attachments/assets/48ebed3c-11b4-45e6-8bce-ee0e9a704786)
+
+Set password: passwd root
+Generate ssh-key: ssh-keygen
+Open /etc/ssh/sshd_config file and make the following changes:
+PermitRoot login yes
+Uncomment Pubkey authenticatiom yes
+Password authentication yes
+Permit empty yes
+Esc > :wq! > enter
+Run systemctl restart sshd, systemctl enable sshd
+
+Configure aws iam user:
+
+![image](https://github.com/user-attachments/assets/6beb1058-1deb-4501-a3dc-39a8617711b0)
+
+Copy jenkins public ssh key in docker
+
+![image](https://github.com/user-attachments/assets/00c4d0b6-eb8c-4f24-8025-111df98aea63)
+
+Copy docker public ssh key in jenkins
+Perform all the same steps in jenkins-server from set password. There will be one more step in jenkins server of connecting jenkins-server with jenkins. For that copy public ssh key of jenkins-server in jenkins-server itself.
+
+Go to aws.com and create a repository in Elastic Container registry
+
+![image](https://github.com/user-attachments/assets/fe9f28b8-6827-4f1a-9da0-0bc26f5ce4e6)
+
+Go to jenkins > Manage jenkins > plugins > install **publish over ssh**
+
+![image](https://github.com/user-attachments/assets/5d12f0f2-e955-459b-98cf-191e0cb450b6)
+
+Manage jenkins > system > Go to publish over ssh tab and paste jenkins private key
+
+![image](https://github.com/user-attachments/assets/c6081dff-5f35-4525-9811-e58613305f5d)
+
+Add ssh-server and paste jenkins ip by running ip a s command in jenkins-server > test configuration. It should display Success.
+
+![image](https://github.com/user-attachments/assets/e907e0d9-fe2f-4f48-9c0d-bfbe0f151854)
+
+Add ssh-server and paste docker ip by running ip a s command in docker-server > test configuration. It should display Success.
+
+![image](https://github.com/user-attachments/assets/eade17b8-56e9-4326-8b79-f2e910f3e384)
+
+Apply > save
+Go to your tomcat project in Jenkins > Configure > add post-built action > send artifacts over ssh:
+The exec command is to synchronize files and directories from your local machine to the directory on the remote machine.
+
+![image](https://github.com/user-attachments/assets/cab51c76-4e1d-4e64-8ab3-c102194b7e00)
+
+In exec commands we have enter the commands to create a docker image of the built maven project and push the image in aws ecr.
+
+![image](https://github.com/user-attachments/assets/f30b8aec-dee8-407e-9c6e-f7727a747235)
+
+Apply > save > build Now
+If build is successful image will be created and you can check it in your aws ecr repository.
+
+![image](https://github.com/user-attachments/assets/b54979f1-ac01-4838-a54e-b6b34bcb05fc)
+
+### 4.Deployment: 
+
+The Docker image is deployed to a Kubernetes cluster.
+Create IAM roles in aws and attach policy with instance :
+
+![image](https://github.com/user-attachments/assets/cf99643f-d5d1-4736-8316-af4828c6f0b2)
+
+Open cluster-server in terminal.
+Set password: passwd root
+Generate ssh-key: ssh-keygen
+Open /etc/ssh/sshd_config file and make the following changes:
+PermitRoot login yes
+Uncomment Pubkey authenticatiom yes
+Password authentication yes
+Permit empty yes
+Esc > :wq! > enter
+Install eksctl and kubectl in cluster server
+
+![image](https://github.com/user-attachments/assets/d6bf91d7-ca5b-4efd-bc66-2fa0b92c68a1)
+
+Create cluster and nodegroup
+
+![image](https://github.com/user-attachments/assets/34dd0a89-a183-47bd-8b4c-0b2e4b408438)
+
+![image](https://github.com/user-attachments/assets/960a1d8c-6396-4e69-b64f-70d5655037ec)
+
+Create one deployment.yml file and service.yml file
+
+![image](https://github.com/user-attachments/assets/a8c3bbad-aef3-4e13-aad9-60c50042e4e5)
+
+Paste the URI of the image in deployment.yml file.
+
+![image](https://github.com/user-attachments/assets/e112cbe1-b81d-4085-bc36-7834fc340b24)
+
+![image](https://github.com/user-attachments/assets/c847107a-511b-48e8-85f1-c0aa7682dbd5)
+
+Add ssh-server and paste cluster ip by running ip a s command in docker-server > test configuration. It should display Success.
+
+![image](https://github.com/user-attachments/assets/47d32efc-f429-4091-aeb2-2353afd19be7)
+
+Apply > save
+Go to your tomcat project in Jenkins > Configure > add post-built action > send artifacts over ssh:
+These commands are to delete previous deployment and create new deploment and service.
+
+![image](https://github.com/user-attachments/assets/e598e68a-3c9e-4342-bad0-fda69c2760df)
+
+In the cluster server run the following command to display current services and vcopy the external ip and run http://external-ip:8080/webapp in web browser to run your java application.
+
+![image](https://github.com/user-attachments/assets/7093182f-e205-416c-ad15-dc3390737510)
+
+![image](https://github.com/user-attachments/assets/6b7f1f99-bf5b-4ae6-9aa8-3a0b2ec65edb)
+
+In this way we have automated the whole process. If there are any modifications in the jsp file from github jenkins will automatically build the project and the changes will be reflected on the live webpage automatically.
+If there are any errors in the modification the build will be failed and the webpage will not be updated. It will show the last successful built which will help in preventing our webpage from crashing.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

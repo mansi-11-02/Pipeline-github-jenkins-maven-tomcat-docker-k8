@@ -1,47 +1,32 @@
-Jenkins download commands
-```yml
-dnf install java-17-amazon-corretto -y
-wget -O /etc/yum.repos.d/jenkins.repo \https://pkg.jenkins.io/redhat-stable/jenkins.repo
-rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key
-dnf install jenkins -y
-systemctl enable jenkins
-systemctl start jenkins
-```
+# End-to-End CI/CD Pipeline Documentation
 
+This document provides a step-by-step guide to creating a CI/CD pipeline using Jenkins, GitHub, Maven, Docker, Amazon ECR, and Kubernetes. The pipeline will automate the process of building, testing, and deploying a sample Java web application.
 
-Tomcat download commands
-```yml
-wget https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.93/bin/apache-tomcat-9.0.93.tar.gz
-```
+## Problem Statement
 
-tomcat-users.xml
-```yml
-<role rolename="manager-gui"/>
-<role rolename="manager-script"/>
-<role rolename="manager-jmx"/>
-<role rolename="manager-status"/>
-<user username="admin" password="admin" roles="manager-gui, manager-script, manager-jmx, manager-status"/>
-<user username="developer" password="developer" roles="manager-script"/>
-<user username="tomcat" password="s3cret" roles="manager-gui"/>
-```
-eks-cluster-creation
+Create an end-to-end CI/CD pipeline in AWS platform using Jenkins as the orchestration tool, GitHub as the SCM, Maven as the Build tool, deploy in a Docker instance and create a Docker image, store the Docker image in ECR, and achieve Kubernetes deployment using the ECR image. Build a sample Java web app using Maven.
 
-# Install EKS Tool
-```yml
-curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
-sudo mv /tmp/eksctl /usr/local/bin
-eksctl version
-```
+## Architecture Overview
 
-Install Kubectl
-```yml
-curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
-sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl 
-kubectl version --client
-```
+The CI/CD pipeline consists of the following stages:
+1. **Source Code Management**: Java Code is stored in a GitHub repository.
+2. **Build**: Jenkins uses Maven plugin to build the Java application on a Tomcat server.
+3. **Dockerization**: The application is packaged into a Docker image.
+4. **Image Storage**: The Docker image is stored in Amazon ECR.
+5. **Deployment**: The Docker image is deployed to a Kubernetes cluster.
 
-Create EKS Cluster
-```yml
-eksctl create cluster --name my-cluster --region region-code --version 1.29 --vpc-public-subnets subnet-ExampleID1,subnet-ExampleID2 --without-nodegroup
-```
+## Prerequisites
 
+- AWS account
+- GitHub account
+- Jenkins server
+- Docker installed on the Jenkins server
+- Kubernetes cluster
+- Maven installed on the Jenkins server
+- AWS CLI configured with appropriate permissions
+
+## Setup Instructions
+
+### 1. Create EC2 Instances
+
+Create 5 EC2 instances in AWS with the same security group, key-pair, and region.

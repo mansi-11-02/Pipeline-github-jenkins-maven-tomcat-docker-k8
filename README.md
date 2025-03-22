@@ -35,8 +35,7 @@ Generating ssh-key to connect local server to our github account.
 
 Cloning java project files on local server
 
-<img src="https://github.com/user-attachments/assets/11dcf2bb-2057-48ae-9406-a855381b0e81" alt="Description" style="border: 2px solid black;"/>
-
+![image](https://github.com/user-attachments/assets/11dcf2bb-2057-48ae-9406-a855381b0e81)
 
 The files are added, commited and pushed in the github Repository by creating remote origin on main branch.
 
@@ -73,14 +72,44 @@ In Jenkins> dashboard > manage Jenkins > available plugins > maven integration >
 ![image](https://github.com/user-attachments/assets/8aa70c23-8648-48b3-80c6-13cb22e8b6fe)
 
 In installed plugins > type github > disable github branch source plugin and enable github plugin.
-
-![image](https://github.com/user-attachments/assets/ac4bcca0-4f0c-4c18-8c9a-11fbeac17f20)
-
 After installing restart Jenkins
 
 ![image](https://github.com/user-attachments/assets/ad8d35b7-bab9-4287-9de7-961433f68871)
 
 In Manage Jenkins add tools and paste the java and maven path from Jenkins-server
+
+![image](https://github.com/user-attachments/assets/40f813a5-bd78-4e8e-9361-4fc81aefaa75)
+
+![image](https://github.com/user-attachments/assets/dde89b65-cb2d-44d6-a8b7-15529a821a31)
+
+![image](https://github.com/user-attachments/assets/92fd126c-c832-4477-af54-405be3a0413e)
+
+Create new item > type name > maven project
+
+![image](https://github.com/user-attachments/assets/e5cd1ce8-f22c-4f30-8f1d-82b5c8571e65)
+
+Add your git repository link
+
+![image](https://github.com/user-attachments/assets/274dc7e1-70c6-4fd8-a231-e00a26e9462b)
+
+Change branch to main.
+
+![image](https://github.com/user-attachments/assets/0b264122-16d9-4a45-b824-7f25688b85c1)
+
+Save, apply, and build now > The build should be successful.
+
+![image](https://github.com/user-attachments/assets/36a74365-ab5f-47de-bb0f-35ac51afa629)
+
+Jenkins artifacts are visible, it means the build outputs or results are accessible.
+
+![image](https://github.com/user-attachments/assets/489c86fa-4d2b-4e0f-a469-84f9699e7128)
+
+Open tomcat-server in the terminal
+Install java and apache tomcat in /opt directory
+
+
+
+
 
 
 

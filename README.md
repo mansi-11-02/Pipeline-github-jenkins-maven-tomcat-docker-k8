@@ -20,7 +20,7 @@ The CI/CD pipeline consists of the following stages:
  
 ## Create 5 instances in AWS EC2 with the same security group, key-pair, and region.
 
-![image](https://github.com/user-attachments/assets/11dcf2bb-2057-48ae-9406-a855381b0e81)
+<img src="https://github.com/user-attachments/assets/11dcf2bb-2057-48ae-9406-a855381b0e81" alt="Description" style="border: 2px solid black;"/>
 
 ### 1. Source Code Management: 
 Installing git in developer-server for local version control system.

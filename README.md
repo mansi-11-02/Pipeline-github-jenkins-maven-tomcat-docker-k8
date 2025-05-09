@@ -2,7 +2,7 @@
 
 This document provides a step-by-step guide to creating a CI/CD pipeline using Jenkins, GitHub, Maven, Docker, Amazon ECR, and Kubernetes. The pipeline will automate the process of building, testing, and deploying a sample Java web application.
 
-<img src="(https://github.com/user-attachments/assets/7c354bbf-b4dd-4b9b-8379-0b0d251cbac9" alt="Description" style="border: 2px solid black;"/>
+<img src="https://github.com/user-attachments/assets/7c354bbf-b4dd-4b9b-8379-0b0d251cbac9" alt="Description" style="border: 2px solid black;"/>
 
 ## Problem Statement
 
